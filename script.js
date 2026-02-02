@@ -1,6 +1,7 @@
 const video = document.getElementById("video");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const resetBtn = document.getElementById("reset");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -53,10 +54,12 @@ pose.onResults((results) => {
 });
 
 // ===============================
-// カメラ起動
+// カメラ起動（外カメラ優先）
 // ===============================
 navigator.mediaDevices.getUserMedia({
-  video: { facingMode: "environment" },
+  video: {
+    facingMode: { ideal: "environment" }
+  },
   audio: false
 }).then(stream => {
   video.srcObject = stream;
@@ -119,6 +122,14 @@ window.addEventListener("touchstart", (e) => {
 
 window.addEventListener("click", () => {
   beans.push(new Bean());
+});
+
+// ===============================
+// リセット処理
+// ===============================
+resetBtn.addEventListener("click", () => {
+  score = 0;
+  beans = [];
 });
 
 // ===============================
